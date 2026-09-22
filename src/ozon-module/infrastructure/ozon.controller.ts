@@ -1,6 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { OzonService } from '../application/ozon.service';
-import { OzonProductFilters, OzonProductListResult } from '../application/ozon.types';
+import { OzonService } from '../application/ozon.service.js';
+import {
+  OzonProductFilters,
+  OzonProductListResult,
+} from '../application/ozon.types.js';
 
 /** Treat `"true"` / `"1"` (case-insensitive) from the query string as `true`. */
 function parseBool(value: string | undefined): boolean {

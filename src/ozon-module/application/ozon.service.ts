@@ -7,7 +7,8 @@ import {
   OzonProductListRequest,
   OzonProductListResponse,
   OzonProductListResult,
-} from './ozon.types';
+} from './ozon.types.js';
+import ozonData from './ozon-data.constant.js';
 dotenv.config();
 
 /** All boolean filters off — no filtering by any field. */
@@ -55,6 +56,28 @@ export class OzonService {
     return response.data.result;
   }
 
+  // private async mockedFetchPage(
+  //   limit: number,
+  //   lastId: string,
+  // ): Promise<OzonProductListResponse> {
+  //   let count = limit;
+  //   let isFound = false;
+  //   const filteredItems = ozonData.filter((el) => {
+  //     if (el.offer_id === lastId) {
+  //       isFound = true;
+  //       return false;
+  //     }
+  //     if (isFound && count > 0) {
+  //       count--;
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   return Promise.resolve({
+  //     result: { items: filteredItems, last_id: lastId, limit },
+  //   });
+  // }
+
   /**
    * Fetch every product by walking the API's `last_id` cursor until the
    * returned page is shorter than the page size.
@@ -74,6 +97,10 @@ export class OzonService {
     }
 
     return items;
+  }
+
+  private mockedFetchAll(): Promise<OzonProductItem[]> {
+    return Promise.resolve(ozonData);
   }
 
   /**
@@ -120,7 +147,7 @@ export class OzonService {
     search = '',
     filters: OzonProductFilters = NO_FILTERS,
   ): Promise<OzonProductListResult> {
-    const items = (await this.fetchAll()).filter(
+    const items = (await this.mockedFetchAll()).filter(
       (item) =>
         this.matchesSearch(item, search) && this.matchesFilters(item, filters),
     );

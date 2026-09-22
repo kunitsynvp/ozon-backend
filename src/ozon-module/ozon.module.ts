@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { OzonService } from './application/ozon.service';
-import { OzonController } from './infrastructure/ozon.controller';
+import { OzonService } from './application/ozon.service.js';
+import { OzonController } from './infrastructure/ozon.controller.js';
 
 @Module({
   providers: [OzonService],
