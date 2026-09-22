@@ -1,0 +1,25 @@
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  stores       Store[] // обратная сторона связи
+
+  @@map("users")
+}
+
+model Store {
+  id              String   @id @default(uuid())
+  name            String? // название магазина, для переключения в UI
+  clientId        String
+  apiKeyEncrypted String
+  status          String   @default("connected")
+  isActive        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("stores")
+}
