@@ -5,6 +5,7 @@ import { db } from './db.js';
 @Global()
 @Module({
   providers: [PrismaProvider],
+  exports: [PrismaProvider],
 })
 export class PrismaModule implements OnApplicationShutdown {
   async onApplicationShutdown(signal?: string) {
