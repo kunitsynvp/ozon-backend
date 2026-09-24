@@ -1,18 +1,7 @@
-export type User = {
-  id: string;
-  email: string;
-  passwordHash: string;
-  createdAt: Date;
-};
+import type { FieldOutputTypes, models } from '../contract.js';
 
-export type Store = {
-  id: string;
-  name?: string;
-  clientId: string;
-  status: string;
-  isActive: boolean;
-  createdAt: Date;
+export type UserWithRelations = (typeof models)['public']['User'];
+export type StoreWithRelations = (typeof models)['public']['Store'];
 
-  userId: string;
-  user: User;
-};
+export type PlainUser = FieldOutputTypes['public']['User'];
+export type PlainStore = FieldOutputTypes['public']['Store'];

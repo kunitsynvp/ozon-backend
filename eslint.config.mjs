@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs'],
+    ignores: ['eslint.config.mjs', 'src/prisma/contract.d.ts'], // contract.d.ts — сгенерированный файл, его не линтим
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
