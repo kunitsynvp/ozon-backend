@@ -9,6 +9,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
+  @HttpCode(HttpStatus.OK) // Nest по умолчанию отдаёт 201 на @Post — логин ничего не создаёт
   async login(
     @Body() { email, password }: LoginInputDto,
   ): Promise<LoginOutputDto> {
@@ -16,7 +17,7 @@ export class AuthController {
   }
 
   @Post('register')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async register(@Body() { email, password }: RegisterInputDto): Promise<void> {
     return await this.authService.register(email, password);
   }

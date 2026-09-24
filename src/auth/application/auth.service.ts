@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRepository } from '../infrastructure/auth.repository.js';
 import { EncryptionService } from '../../core/application/encryption.service.js';
@@ -15,7 +19,7 @@ export class AuthService {
   async register(email: string, password: string) {
     const existedUser = await this.authRepository.findUserByEmail(email);
     if (existedUser) {
-      throw new Error('User already exists');
+      throw new BadRequestException('This email is already registered');
     }
 
     const newPasswordHash = await this.encryptionService.generateHash(password);
@@ -25,7 +29,7 @@ export class AuthService {
   async login(email: string, password: string): Promise<LoginOutputDto> {
     const existedUser = await this.authRepository.findUserByEmail(email);
     if (!existedUser) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const isPasswordCorrect = await this.encryptionService.compare(
@@ -33,7 +37,7 @@ export class AuthService {
       existedUser.passwordHash,
     );
     if (!isPasswordCorrect) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const token = this.jwtService.sign({ userId: existedUser.id });
