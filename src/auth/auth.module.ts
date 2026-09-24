@@ -4,6 +4,7 @@ import { AuthService } from './application/auth.service.js';
 import { JwtModule } from '@nestjs/jwt';
 import { EncryptionService } from '../core/application/encryption.service.js';
 import { AuthRepository } from './infrastructure/auth.repository.js';
+import { AesEncryptionService } from '../core/application/aes-encryption.service.js';
 
 @Module({
   imports: [
@@ -16,6 +17,11 @@ import { AuthRepository } from './infrastructure/auth.repository.js';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, EncryptionService, AuthRepository],
+  providers: [
+    AuthService,
+    EncryptionService,
+    AuthRepository,
+    AesEncryptionService,
+  ],
 })
 export class AuthModule {}
